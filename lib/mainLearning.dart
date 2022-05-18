@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MyWidget(),
     ),
@@ -10,6 +10,8 @@ void main() {
 }
 
 class MyWidget extends StatelessWidget {
+  const MyWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,13 +50,13 @@ class MyCustomPainter extends CustomPainter {
     // Drawing the sun
     path = Path();
     path.moveTo(100, 100);
-    path.addOval(Rect.fromCircle(center: Offset(100, 100), radius: 25));
+    path.addOval(Rect.fromCircle(center: const Offset(100, 100), radius: 25));
     canvas.drawPath(path, paintSun);
   }
 
   // Method to decide if repainting is necessary on rebuild
   @override
-  bool shouldRepaint(MyCustomPainter delegate) {
+  bool shouldRepaint(MyCustomPainter oldDelegate) {
     return true;
   }
 }

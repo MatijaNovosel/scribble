@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+// ignore: library_prefixes
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'drawnLine.dart';
 import 'sketcher.dart';
@@ -22,25 +19,25 @@ class _DrawingPageState extends State<DrawingPage> {
   DrawnLine? line;
   Color selectedColor = Colors.black;
   double selectedWidth = 5.0;
+  IO.Socket? socket;
 
   StreamController<List<DrawnLine?>> linesStreamController = StreamController<List<DrawnLine?>>.broadcast();
   StreamController<DrawnLine?> currentLineStreamController = StreamController<DrawnLine?>.broadcast();
 
-  Future<void> save() async {
+  void connectToSocket() {
+    print("connecting ...");
     try {
-      RenderRepaintBoundary boundary = _globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage();
-      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-      Uint8List? pngBytes = byteData?.buffer.asUint8List();
-      var saved = await ImageGallerySaver.saveImage(
-        pngBytes!,
-        quality: 100,
-        name: DateTime.now().toIso8601String() + ".png",
-        isReturnImagePathOfIOS: true,
-      );
-      print(saved);
+      socket = IO.io('http://10.0.2.2:3000', <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
+      socket?.connect();
+      socket?.onConnect((_) {
+        print("Connected to socket!");
+      });
+      socket?.onDisconnect((_) => print('Disconnected!'));
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 
@@ -134,6 +131,21 @@ class _DrawingPageState extends State<DrawingPage> {
   void onPanEnd(DragEndDetails details) {
     lines = List.from(lines)..add(line);
     linesStreamController.add(lines);
+    socket?.emit(
+      "line-finished",
+      lines
+          .map(
+            (line) => line?.path.map(
+              (e) {
+                if (e != null) {
+                  return [e.dx, e.dy];
+                }
+                return [];
+              },
+            ).toList(),
+          )
+          .toList(),
+    );
   }
 
   Widget buildStrokeToolbar() {
@@ -193,10 +205,10 @@ class _DrawingPageState extends State<DrawingPage> {
             height: 10.0,
           ),
           GestureDetector(
-            onTap: save,
+            onTap: connectToSocket,
             child: const CircleAvatar(
               child: Icon(
-                Icons.save,
+                Icons.signal_cellular_alt_rounded,
                 size: 20.0,
                 color: Colors.white,
               ),
@@ -231,5 +243,10 @@ class _DrawingPageState extends State<DrawingPage> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
