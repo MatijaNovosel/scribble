@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:scribble/infrastructure/socketManager.dart';
-import 'package:scribble/store/actions.dart';
 
 class PreLobby extends StatefulWidget {
-  const PreLobby({Key? key}) : super(key: key);
+  final SocketManager socketManager;
+
+  const PreLobby({Key? key, required this.socketManager}) : super(key: key);
 
   @override
   State<PreLobby> createState() => _PreLobbyState();
@@ -12,21 +12,25 @@ class PreLobby extends StatefulWidget {
 
 class _PreLobbyState extends State<PreLobby> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return StoreConnector<SocketManager, VoidCallback>(
-      converter: (store) {
-        return () => store.dispatch(StoreActions.connect);
-      },
-      builder: (context, callback) {
-        return Row(
-          children: [
-            ElevatedButton(
-              onPressed: callback,
-              child: const Text("Connect"),
-            ),
-          ],
-        );
-      },
+    return Row(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            widget.socketManager.connect();
+            widget.socketManager.socket?.on("hello", (data) {
+              print("Hell");
+              print(data);
+            });
+          },
+          child: const Text("Connect"),
+        ),
+      ],
     );
   }
 }
