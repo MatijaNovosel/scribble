@@ -1,4 +1,4 @@
-import 'drawnLine.dart';
+import '../models/drawnLine.dart';
 import 'package:flutter/material.dart';
 
 class Sketcher extends CustomPainter {

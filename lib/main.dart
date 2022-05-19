@@ -1,4 +1,4 @@
-import 'drawingPage.dart';
+import 'pages/drawingPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 // ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-import 'drawnLine.dart';
-import 'sketcher.dart';
+import '../models/drawnLine.dart';
+import '../infrastructure/sketcher.dart';
 
 class DrawingPage extends StatefulWidget {
   const DrawingPage({Key? key}) : super(key: key);
