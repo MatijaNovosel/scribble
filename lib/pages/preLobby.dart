@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:scribble/constants.dart';
 import 'package:scribble/infrastructure/socketManager.dart';
+import 'package:scribble/models/lobby.dart';
 
 class PreLobby extends StatefulWidget {
   final SocketManager socketManager;
@@ -11,8 +13,16 @@ class PreLobby extends StatefulWidget {
 }
 
 class _PreLobbyState extends State<PreLobby> {
+  get socket {
+    return widget.socketManager;
+  }
+
   @override
   void initState() {
+    socket.connect();
+    socket.socket.on("lobby-created-success", (data) {
+      print(data);
+    });
     super.initState();
   }
 
@@ -22,13 +32,15 @@ class _PreLobbyState extends State<PreLobby> {
       children: [
         ElevatedButton(
           onPressed: () {
-            widget.socketManager.connect();
-            widget.socketManager.socket?.on("hello", (data) {
-              print("Hell");
-              print(data);
-            });
+            socket.createLobby(CreateLobby(
+              name: "test-lobby",
+              creatorId: widget.socketManager.socketId,
+              password: "password-test",
+              playerCapacity: 4,
+              roundTime: RoundTimes.veryLong,
+            ));
           },
-          child: const Text("Connect"),
+          child: const Text("Create lobby"),
         ),
       ],
     );
