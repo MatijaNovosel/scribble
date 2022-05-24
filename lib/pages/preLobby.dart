@@ -19,30 +19,43 @@ class _PreLobbyState extends State<PreLobby> {
 
   @override
   void initState() {
-    socket.connect();
-    socket.socket.on("lobby-created-success", (data) {
-      print(data);
-    });
+    // socket.connect();
+    // socket.socket.on("lobby-created-success", (data) {
+    //   print(data);
+    // });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            socket.createLobby(CreateLobby(
-              name: "test-lobby",
-              creatorId: widget.socketManager.socketId,
-              password: "password-test",
-              playerCapacity: 4,
-              roundTime: RoundTimes.veryLong,
-            ));
-          },
-          child: const Text("Create lobby"),
-        ),
-      ],
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              socket.createLobby(CreateLobby(
+                name: "test-lobby",
+                creatorId: widget.socketManager.socketId,
+                password: "password-test",
+                playerCapacity: 4,
+                roundTime: RoundTimes.veryLong,
+              ));
+            },
+            child: const Text("Create lobby"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              //
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.amber),
+            ),
+            child: const Text("Join lobby"),
+          ),
+        ],
+      ),
     );
   }
 }
