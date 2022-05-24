@@ -3,10 +3,15 @@ import 'package:socket_io_client/socket_io_client.dart';
 import '../models/lobby.dart';
 
 class SocketManager {
-  late Socket socket;
+  static SocketManager? _instance;
+  factory SocketManager() => _instance ??= SocketManager._();
+
+  Socket? socket;
+
+  SocketManager._();
 
   get socketId {
-    return socket.id;
+    return socket?.id;
   }
 
   void connect() {
@@ -16,17 +21,17 @@ class SocketManager {
         "transports": ["websocket"],
         "autoConnect": false,
       });
-      socket.connect();
-      socket.onConnect((_) {
+      socket?.connect();
+      socket?.onConnect((_) {
         print("Connected to socket!");
       });
-      socket.onDisconnect((_) => print('Disconnected!'));
+      socket?.onDisconnect((_) => print('Disconnected!'));
     } catch (e) {
       print(e.toString());
     }
   }
 
   void createLobby(CreateLobby data) {
-    socket.emit("create-lobby", data.toJson());
+    socket?.emit("create-lobby", data.toJson());
   }
 }

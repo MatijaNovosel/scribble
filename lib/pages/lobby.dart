@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scribble/infrastructure/socketManager.dart';
 
 class Lobby extends StatefulWidget {
   const Lobby({Key? key}) : super(key: key);
@@ -20,10 +21,10 @@ class _LobbyState extends State<Lobby> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
-              "Test",
-              style: TextStyle(
+              SocketManager().socketId,
+              style: const TextStyle(
                 fontSize: 12,
               ),
             ),

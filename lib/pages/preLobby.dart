@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:scribble/infrastructure/socketManager.dart';
+import 'package:scribble/models/lobby.dart';
+import '../constants.dart';
 
 class PreLobby extends StatefulWidget {
   const PreLobby({Key? key}) : super(key: key);
@@ -39,13 +43,13 @@ class _PreLobbyState extends State<PreLobby> {
                 child: const Text("Ok"),
                 onPressed: () {
                   setState(() {
-                    // socket.createLobby(CreateLobby(
-                    //   name: "test-lobby",
-                    //   creatorId: widget.socketManager.socketId,
-                    //   password: "password-test",
-                    //   playerCapacity: 4,
-                    //   roundTime: RoundTimes.veryLong,
-                    // ));
+                    SocketManager().createLobby(CreateLobby(
+                      name: "test-lobby",
+                      creatorId: SocketManager().socketId,
+                      password: "password-test",
+                      playerCapacity: 4,
+                      roundTime: RoundTimes.veryLong,
+                    ));
                     Navigator.pop(context);
                   });
                 },
@@ -57,11 +61,12 @@ class _PreLobbyState extends State<PreLobby> {
 
   @override
   void initState() {
-    // socket.connect();
-    // socket.socket.on("lobby-created-success", (data) {
-    //   LobbyCreatedResponse lobbyData = LobbyCreatedResponse.fromJson(data);
-    //   //
-    // });
+    SocketManager().connect();
+    SocketManager().socket?.on("lobby-created-success", (data) {
+      LobbyCreatedResponse lobbyData = LobbyCreatedResponse.fromJson(data);
+      print(lobbyData);
+      GoRouter.of(context).push("/lobby");
+    });
     super.initState();
   }
 
