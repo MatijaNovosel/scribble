@@ -34,4 +34,8 @@ class SocketManager {
   void createLobby(CreateLobby data) {
     socket?.emit("create-lobby", data.toJson());
   }
+
+  void joinLobby(JoinLobby data) {
+    socket?.emit("create-lobby", data.toJson());
+  }
 }

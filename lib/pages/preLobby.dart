@@ -13,50 +13,107 @@ class PreLobby extends StatefulWidget {
 
 class _PreLobbyState extends State<PreLobby> {
   final TextEditingController _lobbyNameTextFieldController = TextEditingController();
+  final TextEditingController _lobbyIdTextFieldController = TextEditingController();
+  final TextEditingController _lobbyPasswordTextFieldController = TextEditingController();
+
   String? lobbyName;
+  String? lobbyId;
+  String? password;
 
   Future<void> _showCreateLobbyDialog(BuildContext context) async {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Create lobby"),
-            content: TextField(
-              onChanged: (value) {
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Create lobby"),
+          content: TextField(
+            onChanged: (value) {
+              setState(() {
+                lobbyName = value;
+              });
+            },
+            controller: _lobbyNameTextFieldController,
+            decoration: const InputDecoration(hintText: "Lobby name"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () {
                 setState(() {
-                  lobbyName = value;
+                  Navigator.pop(context);
                 });
               },
-              controller: _lobbyNameTextFieldController,
-              decoration: const InputDecoration(hintText: "Lobby name"),
             ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("Cancel"),
-                onPressed: () {
+            TextButton(
+              child: const Text("Ok"),
+              onPressed: () {
+                SocketManager().createLobby(CreateLobby(
+                  name: "test-lobby",
+                  creatorId: SocketManager().socketId,
+                  password: "password-test",
+                  playerCapacity: 4,
+                  roundTime: RoundTimes.veryLong,
+                ));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showJoinLobbyDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Join lobby"),
+          content: Column(
+            children: [
+              TextField(
+                onChanged: (value) {
                   setState(() {
-                    Navigator.pop(context);
+                    lobbyId = value;
                   });
                 },
+                controller: _lobbyIdTextFieldController,
+                decoration: const InputDecoration(hintText: "Lobby id"),
               ),
-              TextButton(
-                child: const Text("Ok"),
-                onPressed: () {
+              TextField(
+                onChanged: (value) {
                   setState(() {
-                    SocketManager().createLobby(CreateLobby(
-                      name: "test-lobby",
-                      creatorId: SocketManager().socketId,
-                      password: "password-test",
-                      playerCapacity: 4,
-                      roundTime: RoundTimes.veryLong,
-                    ));
-                    Navigator.pop(context);
+                    password = value;
                   });
                 },
+                controller: _lobbyPasswordTextFieldController,
+                decoration: const InputDecoration(hintText: "Password"),
               ),
             ],
-          );
-        });
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () {
+                setState(() {
+                  Navigator.pop(context);
+                });
+              },
+            ),
+            TextButton(
+              child: const Text("Ok"),
+              onPressed: () {
+                SocketManager().joinLobby(JoinLobby(
+                  lobbyId: lobbyId,
+                  password: password,
+                ));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -85,7 +142,7 @@ class _PreLobbyState extends State<PreLobby> {
             ),
             ElevatedButton(
               onPressed: () {
-                //
+                _showJoinLobbyDialog(context);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

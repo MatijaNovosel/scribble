@@ -24,6 +24,23 @@ class CreateLobby {
   }
 }
 
+class JoinLobby {
+  String? lobbyId;
+  String? password;
+
+  JoinLobby({
+    required this.lobbyId,
+    required this.password,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'lobbyId': lobbyId,
+      'password': password,
+    };
+  }
+}
+
 class LobbyCreatedResponse {
   String socketId;
   String lobbyId;
