@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:scribble/infrastructure/socketManager.dart';
+import 'package:scribble/models/lobby.dart';
 
 class Lobby extends StatefulWidget {
-  const Lobby({Key? key}) : super(key: key);
+  final LobbyCreatedResponse lobbyData;
+
+  const Lobby({Key? key, required this.lobbyData}) : super(key: key);
 
   @override
   State<Lobby> createState() => _LobbyState();
 }
 
 class _LobbyState extends State<Lobby> {
+  get lobbyData {
+    return widget.lobbyData;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +29,7 @@ class _LobbyState extends State<Lobby> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              SocketManager().socketId,
+              lobbyData.lobbyId,
               style: const TextStyle(
                 fontSize: 12,
               ),

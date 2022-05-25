@@ -64,8 +64,7 @@ class _PreLobbyState extends State<PreLobby> {
     SocketManager().connect();
     SocketManager().socket?.on("lobby-created-success", (data) {
       LobbyCreatedResponse lobbyData = LobbyCreatedResponse.fromJson(data);
-      print(lobbyData);
-      GoRouter.of(context).push("/lobby");
+      GoRouter.of(context).push("/lobby", extra: lobbyData);
     });
     super.initState();
   }

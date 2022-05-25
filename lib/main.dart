@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:scribble/models/routerDeclarations.dart';
+import 'package:scribble/routes/routerDeclarations.dart';
 import 'package:flutter/material.dart';
 
 void main() {
