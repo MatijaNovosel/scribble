@@ -40,9 +40,7 @@ class _StartState extends State<Start> {
             TextButton(
               child: const Text("Cancel"),
               onPressed: () {
-                setState(() {
-                  Navigator.pop(context);
-                });
+                Navigator.pop(context);
               },
             ),
             TextButton(
@@ -96,9 +94,7 @@ class _StartState extends State<Start> {
             TextButton(
               child: const Text("Cancel"),
               onPressed: () {
-                setState(() {
-                  Navigator.pop(context);
-                });
+                Navigator.pop(context);
               },
             ),
             TextButton(
