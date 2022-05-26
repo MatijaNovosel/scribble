@@ -35,23 +35,22 @@ class _DrawingPageState extends State<DrawingPage> {
   void initState() {
     SocketManager().socket?.on(EventTypes.UPDATE_CANVAS, (data) {
       CanvasUpdateModel response = CanvasUpdateModel.fromJson(data);
-      bool you = response.socketId == SocketManager().socketId;
+      print("Updating canvas ...");
 
-      print("[${DateTime.now()}] Received data from ${you ? "[yourself]" : response.socketId}!");
+      lines = List.from(lines)
+        ..add(
+          DrawnLine(
+            response.line!.path,
+            response.line?.color,
+            response.line?.width,
+          ),
+        );
 
-      if (!you) {
-        print("Updating canvas ...");
-        setState(() {
-          if (response.line != null) {
-            line = DrawnLine(
-              response.line!.path,
-              response.line?.color,
-              response.line?.width,
-            );
-            currentLineStreamController.add(line);
-          }
-        });
-      }
+      setState(() {
+        if (response.line != null) {
+          linesStreamController.add(lines);
+        }
+      });
     });
     super.initState();
   }
