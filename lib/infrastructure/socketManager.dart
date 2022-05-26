@@ -1,3 +1,4 @@
+import 'package:scribble/constants.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../models/lobby.dart';
@@ -15,9 +16,9 @@ class SocketManager {
   }
 
   void connect() {
-    print("Connecting ...");
+    print("Connecting to socket ...");
     try {
-      socket = io("http://10.0.2.2:3000", <String, dynamic>{
+      socket = io(SOCKET_URL, <String, dynamic>{
         "transports": ["websocket"],
         "autoConnect": false,
       });
@@ -25,17 +26,21 @@ class SocketManager {
       socket?.onConnect((_) {
         print("Connected to socket!");
       });
-      socket?.onDisconnect((_) => print('Disconnected!'));
+      socket?.onDisconnect((_) => print("Disconnected!"));
     } catch (e) {
       print(e.toString());
     }
   }
 
   void createLobby(CreateLobby data) {
-    socket?.emit("create-lobby", data.toJson());
+    socket?.emit(EventTypes.CREATE_LOBBY, data.toJson());
   }
 
   void joinLobby(JoinLobby data) {
-    socket?.emit("create-lobby", data.toJson());
+    socket?.emit(EventTypes.LOBBY_JOINED, data.toJson());
+  }
+
+  void finishDrawingLine() {
+    socket?.emit(EventTypes.LINE_FINISHED);
   }
 }

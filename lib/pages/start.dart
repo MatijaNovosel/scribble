@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scribble/infrastructure/socketManager.dart';
 import 'package:scribble/models/lobby.dart';
+import 'package:scribble/routes/routeNames.dart';
 import '../constants.dart';
 
-class PreLobby extends StatefulWidget {
-  const PreLobby({Key? key}) : super(key: key);
+class Start extends StatefulWidget {
+  const Start({Key? key}) : super(key: key);
 
   @override
-  State<PreLobby> createState() => _PreLobbyState();
+  State<Start> createState() => _StartState();
 }
 
-class _PreLobbyState extends State<PreLobby> {
+class _StartState extends State<Start> {
   final TextEditingController _lobbyNameTextFieldController = TextEditingController();
   final TextEditingController _lobbyIdTextFieldController = TextEditingController();
   final TextEditingController _lobbyPasswordTextFieldController = TextEditingController();
@@ -119,9 +120,9 @@ class _PreLobbyState extends State<PreLobby> {
   @override
   void initState() {
     SocketManager().connect();
-    SocketManager().socket?.on("lobby-created-success", (data) {
+    SocketManager().socket?.on(EventTypes.LOBBY_CREATED_SUCCESS, (data) {
       LobbyCreatedResponse lobbyData = LobbyCreatedResponse.fromJson(data);
-      GoRouter.of(context).push("/lobby", extra: lobbyData);
+      GoRouter.of(context).pushNamed(RouteNames.lobby, extra: lobbyData);
     });
     super.initState();
   }
