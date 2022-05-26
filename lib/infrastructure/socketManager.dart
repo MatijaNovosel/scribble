@@ -1,7 +1,7 @@
-import 'package:scribble/constants.dart';
+import 'package:scribble/utils/constants.dart';
+import 'package:scribble/models/drawing.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-import '../models/drawnLine.dart';
 import '../models/lobby.dart';
 
 class SocketManager {
@@ -48,10 +48,7 @@ class SocketManager {
   void finishDrawingLine(DrawnLine? line) {
     socket?.emit(
       EventTypes.LINE_FINISHED,
-      {
-        'line': line?.toJson(),
-        'socketId': socket?.id,
-      },
+      CanvasUpdateModel(line, socket?.id),
     );
   }
 }

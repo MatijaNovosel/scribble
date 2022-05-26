@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+const SOCKET_URL = "http://10.0.2.2:3000";
+
 class RoundTimes {
   static const veryShort = 10;
   static const short = 20;
@@ -27,5 +29,3 @@ class EventTypes {
   static const LINE_FINISHED = "line-finished";
   static const UPDATE_CANVAS = "update-canvas";
 }
-
-const SOCKET_URL = "http://10.0.2.2:3000";

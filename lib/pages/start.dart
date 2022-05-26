@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:scribble/infrastructure/socketManager.dart';
 import 'package:scribble/models/lobby.dart';
 import 'package:scribble/routes/routeNames.dart';
-import '../constants.dart';
+import '../utils/constants.dart';
 
 class Start extends StatefulWidget {
   const Start({Key? key}) : super(key: key);

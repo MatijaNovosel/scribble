@@ -1,4 +1,4 @@
-import '../models/drawnLine.dart';
+import '../models/drawing.dart';
 import 'package:flutter/material.dart';
 
 class Sketcher extends CustomPainter {
@@ -19,11 +19,9 @@ class Sketcher extends CustomPainter {
         for (int j = 0; j < line.path.length - 1; ++j) {
           var linePathA = line.path[j];
           var linePathB = line.path[j + 1];
-          if (linePathA != null && linePathB != null) {
-            paint.color = line.color;
-            paint.strokeWidth = line.width;
-            canvas.drawLine(linePathA, linePathB, paint);
-          }
+          paint.color = line.color ?? Colors.black;
+          paint.strokeWidth = line.width ?? 4.0;
+          canvas.drawLine(linePathA, linePathB, paint);
         }
       }
     }

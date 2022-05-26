@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../utils/constants.dart';
 import '../infrastructure/socketManager.dart';
-import '../models/drawnLine.dart';
+import '../models/drawing.dart';
 import '../infrastructure/sketcher.dart';
 
 class DrawingPage extends StatefulWidget {
@@ -15,7 +15,7 @@ class DrawingPage extends StatefulWidget {
 
 class _DrawingPageState extends State<DrawingPage> {
   final GlobalKey _globalKey = GlobalKey();
-  List<DrawnLine?> lines = <DrawnLine>[];
+  List<DrawnLine?> lines = <DrawnLine?>[];
   DrawnLine? line;
   Color selectedColor = Colors.black;
   double selectedWidth = 5.0;
@@ -34,7 +34,8 @@ class _DrawingPageState extends State<DrawingPage> {
   @override
   void initState() {
     SocketManager().socket?.on(EventTypes.UPDATE_CANVAS, (data) {
-      print(data);
+      CanvasUpdateModel response = CanvasUpdateModel.fromJson(data);
+      print(response);
     });
     super.initState();
   }
@@ -114,8 +115,9 @@ class _DrawingPageState extends State<DrawingPage> {
     RenderBox box = context.findRenderObject() as RenderBox;
     Offset point = box.globalToLocal(details.globalPosition);
 
-    List<Offset> path = List.from(line!.path)..add(point);
-    line = DrawnLine(path, selectedColor, selectedWidth);
+    List<Offset> paths = [...?line?.path, point];
+
+    line = DrawnLine(paths, selectedColor, selectedWidth);
     currentLineStreamController.add(line);
   }
 
@@ -153,7 +155,10 @@ class _DrawingPageState extends State<DrawingPage> {
         child: Container(
           width: strokeWidth * 2,
           height: strokeWidth * 2,
-          decoration: BoxDecoration(color: selectedColor, borderRadius: BorderRadius.circular(50.0)),
+          decoration: BoxDecoration(
+            color: selectedColor,
+            borderRadius: BorderRadius.circular(50.0),
+          ),
         ),
       ),
     );
