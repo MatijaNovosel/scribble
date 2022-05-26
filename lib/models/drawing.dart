@@ -11,9 +11,18 @@ class DrawnLine {
   DrawnLine(this.path, this.color, this.width);
 
   DrawnLine.fromJson(Map<String, dynamic> json) {
+    List<Offset> pathPoints = (json["path"] as List<dynamic>)
+        .map<Offset>(
+          (x) => Offset(
+            x["dx"],
+            x["dy"],
+          ),
+        )
+        .toList();
+
     color = hexStringToColor(json["color"]);
     width = json["width"].toDouble();
-    path = [];
+    path = pathPoints;
   }
 
   Map<String, dynamic> toJson() {
@@ -23,8 +32,6 @@ class DrawnLine {
       'path': path
           .map(
             (p) => ({
-              'direction': p.direction,
-              'distance': p.distance,
               'dx': p.dx,
               'dy': p.dy,
             }),
