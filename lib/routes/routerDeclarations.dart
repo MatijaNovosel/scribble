@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:scribble/models/lobby.dart';
+import 'package:scribble/pages/drawingPage.dart';
 import 'package:scribble/pages/lobby.dart';
 import 'package:scribble/pages/start.dart';
 import 'package:scribble/routes/routeNames.dart';
@@ -18,6 +19,11 @@ GoRouter createGoRouter() {
         builder: (context, state) => Lobby(
           lobbyData: state.extra as LobbyCreatedResponse,
         ),
+      ),
+      GoRoute(
+        path: "/drawing-page",
+        name: RouteNames.drawingPage,
+        builder: (context, state) => const DrawingPage(),
       ),
     ],
   );

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+import '../infrastructure/socketManager.dart';
 import '../models/drawnLine.dart';
 import '../infrastructure/sketcher.dart';
 
@@ -26,6 +28,15 @@ class _DrawingPageState extends State<DrawingPage> {
       lines = [];
       line = null;
     });
+  }
+
+  @override
+  void initState() {
+    SocketManager().connect();
+    SocketManager().socket?.on(EventTypes.UPDATE_CANVAS, (data) {
+      print(data);
+    });
+    super.initState();
   }
 
   @override
@@ -111,6 +122,7 @@ class _DrawingPageState extends State<DrawingPage> {
   void onPanEnd(DragEndDetails details) {
     lines = List.from(lines)..add(line);
     linesStreamController.add(lines);
+    SocketManager().finishDrawingLine(lines);
   }
 
   Widget buildStrokeToolbar() {

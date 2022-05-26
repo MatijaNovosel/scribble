@@ -1,6 +1,7 @@
 import 'package:scribble/constants.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+import '../models/drawnLine.dart';
 import '../models/lobby.dart';
 
 class SocketManager {
@@ -32,6 +33,10 @@ class SocketManager {
     }
   }
 
+  void disconnect() {
+    socket?.dispose();
+  }
+
   void createLobby(CreateLobby data) {
     socket?.emit(EventTypes.CREATE_LOBBY, data.toJson());
   }
@@ -40,7 +45,14 @@ class SocketManager {
     socket?.emit(EventTypes.LOBBY_JOINED, data.toJson());
   }
 
-  void finishDrawingLine() {
-    socket?.emit(EventTypes.LINE_FINISHED);
+  void finishDrawingLine(List<DrawnLine?> lines) {
+    socket?.emit(
+      EventTypes.LINE_FINISHED,
+      lines
+          .map(
+            (line) => (line?.toJson()),
+          )
+          .toList(),
+    );
   }
 }
