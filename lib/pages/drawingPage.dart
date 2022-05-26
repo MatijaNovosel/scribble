@@ -19,6 +19,7 @@ class _DrawingPageState extends State<DrawingPage> {
   DrawnLine? line;
   Color selectedColor = Colors.black;
   double selectedWidth = 5.0;
+  int counter = 1;
 
   StreamController<List<DrawnLine?>> linesStreamController = StreamController<List<DrawnLine?>>.broadcast();
   StreamController<DrawnLine?> currentLineStreamController = StreamController<DrawnLine?>.broadcast();
@@ -32,7 +33,6 @@ class _DrawingPageState extends State<DrawingPage> {
 
   @override
   void initState() {
-    SocketManager().connect();
     SocketManager().socket?.on(EventTypes.UPDATE_CANVAS, (data) {
       print(data);
     });
@@ -122,7 +122,7 @@ class _DrawingPageState extends State<DrawingPage> {
   void onPanEnd(DragEndDetails details) {
     lines = List.from(lines)..add(line);
     linesStreamController.add(lines);
-    SocketManager().finishDrawingLine(lines);
+    SocketManager().finishDrawingLine(line);
   }
 
   Widget buildStrokeToolbar() {
@@ -198,6 +198,7 @@ class _DrawingPageState extends State<DrawingPage> {
       padding: const EdgeInsets.all(4.0),
       child: FloatingActionButton(
         mini: true,
+        heroTag: null,
         backgroundColor: color,
         child: Container(),
         onPressed: () {

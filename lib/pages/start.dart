@@ -148,6 +148,17 @@ class _StartState extends State<Start> {
               ),
               child: const Text("Join lobby"),
             ),
+            ElevatedButton(
+              onPressed: () {
+                GoRouter.of(context).pushNamed(RouteNames.drawingPage);
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Colors.greenAccent,
+                ),
+              ),
+              child: const Text("Drawing page"),
+            ),
           ],
         ),
       ),

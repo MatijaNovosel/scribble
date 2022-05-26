@@ -45,14 +45,13 @@ class SocketManager {
     socket?.emit(EventTypes.LOBBY_JOINED, data.toJson());
   }
 
-  void finishDrawingLine(List<DrawnLine?> lines) {
+  void finishDrawingLine(DrawnLine? line) {
     socket?.emit(
       EventTypes.LINE_FINISHED,
-      lines
-          .map(
-            (line) => (line?.toJson()),
-          )
-          .toList(),
+      {
+        'line': line?.toJson(),
+        'socketId': socket?.id,
+      },
     );
   }
 }
