@@ -59,3 +59,20 @@ class LobbyCreatedResponse {
       : socketId = json["socketId"],
         lobbyId = json["lobbyId"];
 }
+
+class PlayerJoinedLobbyModel {
+  String socketId;
+  String lobbyId;
+  List<String> allSocketIds;
+
+  PlayerJoinedLobbyModel({
+    required this.socketId,
+    required this.lobbyId,
+    required this.allSocketIds,
+  });
+
+  PlayerJoinedLobbyModel.fromJson(Map<String, dynamic> json)
+      : socketId = json["socketId"],
+        lobbyId = json["lobbyId"],
+        allSocketIds = json["allSocketIds"];
+}
