@@ -42,7 +42,7 @@ class SocketManager {
   }
 
   void joinLobby(JoinLobby data) {
-    socket?.emit(EventTypes.LOBBY_JOINED, data.toJson());
+    socket?.emit(EventTypes.LOBBY_JOIN_ATTEMPT, data.toJson());
   }
 
   void finishDrawingLine(DrawnLine? line) {

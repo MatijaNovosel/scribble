@@ -24,6 +24,8 @@ class EventTypes {
   static const INVALID_LOBBY_ID = "invalid-lobby-id";
   static const LOBBY_DISBANDED = "lobby-disbanded";
   static const DISBAND_LOBBY = "disband-lobby";
+  static const LOBBY_JOIN_SUCCESS = "lobby-join-success";
+  static const LOBBY_JOIN_ATTEMPT = "lobby-join-attempt";
   // General
   static const DISCONNECTED = "disconnected";
   static const USER_CUSTOMIZED = "user-customized";

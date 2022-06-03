@@ -116,17 +116,18 @@ class _StartState extends State<Start> {
 
   @override
   void initState() {
-    /*
     SocketManager().connect();
     SocketManager().socket?.on(EventTypes.LOBBY_CREATED_SUCCESS, (data) {
       LobbyCreatedResponse lobbyData = LobbyCreatedResponse.fromJson(data);
-      GoRouter.of(context).pushNamed(RouteNames.lobby, extra: lobbyData);
+      GoRouter.of(context).pushNamed(RouteNames.lobby, extra: lobbyData.lobbyId);
     });
     SocketManager().socket?.on(EventTypes.LOBBY_JOIN_FAILURE, (data) {
-      String lobbyId = data;
-      print("Failed to join lobby: $lobbyId");
+      showError("Failed to join lobby $data!");
     });
-    */
+    SocketManager().socket?.on(EventTypes.LOBBY_JOIN_SUCCESS, (data) {
+      PlayerSuccessfulJoinLobbyModel response = PlayerSuccessfulJoinLobbyModel.fromJson(data);
+      GoRouter.of(context).pushNamed(RouteNames.lobby, extra: response.lobbyId);
+    });
     super.initState();
   }
 
