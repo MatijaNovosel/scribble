@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:scribble/infrastructure/socketManager.dart';
 import 'package:scribble/models/lobby.dart';
+import 'package:scribble/utils/constants.dart';
 
 class Lobby extends StatefulWidget {
   final LobbyCreatedResponse lobbyData;
@@ -17,6 +19,10 @@ class _LobbyState extends State<Lobby> {
 
   @override
   void initState() {
+    SocketManager().socket?.on(EventTypes.LOBBY_JOINED, (data) {
+      LobbyJoinedResponse lobbyJoinedResponse = LobbyJoinedResponse.fromJson(data);
+      print(lobbyJoinedResponse.allSocketIds);
+    });
     super.initState();
   }
 
