@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:scribble/infrastructure/socketManager.dart';
 import 'package:scribble/models/lobby.dart';
 import 'package:scribble/routes/routeNames.dart';
+import 'package:scribble/utils/helpers.dart';
 import '../utils/constants.dart';
 
 class Start extends StatefulWidget {
@@ -115,11 +116,17 @@ class _StartState extends State<Start> {
 
   @override
   void initState() {
+    /*
     SocketManager().connect();
     SocketManager().socket?.on(EventTypes.LOBBY_CREATED_SUCCESS, (data) {
       LobbyCreatedResponse lobbyData = LobbyCreatedResponse.fromJson(data);
       GoRouter.of(context).pushNamed(RouteNames.lobby, extra: lobbyData);
     });
+    SocketManager().socket?.on(EventTypes.LOBBY_JOIN_FAILURE, (data) {
+      String lobbyId = data;
+      print("Failed to join lobby: $lobbyId");
+    });
+    */
     super.initState();
   }
 
@@ -158,6 +165,17 @@ class _StartState extends State<Start> {
                 ),
               ),
               child: const Text("Drawing page"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showError("I'm a toast message!");
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Colors.purpleAccent,
+                ),
+              ),
+              child: const Text("Toast test"),
             ),
           ],
         ),
