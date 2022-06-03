@@ -20,8 +20,8 @@ class _LobbyState extends State<Lobby> {
   @override
   void initState() {
     SocketManager().socket?.on(EventTypes.LOBBY_JOINED, (data) {
-      LobbyJoinedResponse lobbyJoinedResponse = LobbyJoinedResponse.fromJson(data);
-      print(lobbyJoinedResponse.allSocketIds);
+      PlayerJoinedLobbyModel response = PlayerJoinedLobbyModel.fromJson(data);
+      print(response.allSocketIds);
     });
     super.initState();
   }
