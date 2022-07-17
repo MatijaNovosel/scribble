@@ -3,7 +3,7 @@
   Pictionary for mobile devices, made with Flutter.
 </p>
 <p align=center>
-  <a href="https://github.com/MatijaNovosel/scribble-backend">Backend</a>
+  💾 <a href="https://github.com/MatijaNovosel/scribble-backend">Backend</a>
 </p>
 
 <p align=center>
