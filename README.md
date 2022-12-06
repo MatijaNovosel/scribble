@@ -1,7 +1,12 @@
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/36193643/206034033-1ddd512e-b0d2-415a-a36b-1aa7194538ca.png" />
+</div>
+
 <h1 align=center>Scribble</h1>
 <p align=center>
   Pictionary for mobile devices, made with Flutter.
 </p>
+
 <p align=center>
   💾 <a href="https://github.com/MatijaNovosel/scribble-backend">Backend</a>
 </p>
